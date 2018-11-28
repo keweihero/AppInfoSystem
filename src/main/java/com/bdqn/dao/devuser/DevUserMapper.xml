@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.devuser.DevUserMapper">
+
+    <select id="getDevUserById" resultType="com.bdqn.pojo.DevUser" >
+        select
+                id as id,
+                devCode as devCode,
+                devName as devName,
+                devPassword as devPassword,
+                devEmail as devEmail,
+                devInfo as devInfo,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate
+        from dev_user
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getDevUserListByMap" resultType="com.bdqn.pojo.DevUser" parameterType="java.util.Map">
+        select
+                id as id,
+                devCode as devCode,
+                devName as devName,
+                devPassword as devPassword,
+                devEmail as devEmail,
+                devInfo as devInfo,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate
+        from dev_user
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="devCode != null and devCode!=''">
+                        and devCode=#{devCode}
+                    </if>
+                    <if test="devName != null and devName!=''">
+                        and devName=#{devName}
+                    </if>
+                    <if test="devPassword != null and devPassword!=''">
+                        and devPassword=#{devPassword}
+                    </if>
+                    <if test="devEmail != null and devEmail!=''">
+                        and devEmail=#{devEmail}
+                    </if>
+                    <if test="devInfo != null and devInfo!=''">
+                        and devInfo=#{devInfo}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        and creationDate=#{creationDate}
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        and modifyBy=#{modifyBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+        </trim>
+         order by createDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getDevUserCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from dev_user
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="devCode != null and devCode!=''">
+                    and devCode=#{devCode}
+                </if>
+                <if test="devName != null and devName!=''">
+                    and devName=#{devName}
+                </if>
+                <if test="devPassword != null and devPassword!=''">
+                    and devPassword=#{devPassword}
+                </if>
+                <if test="devEmail != null and devEmail!=''">
+                    and devEmail=#{devEmail}
+                </if>
+                <if test="devInfo != null and devInfo!=''">
+                    and devInfo=#{devInfo}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="creationDate != null and creationDate!=''">
+                    and creationDate=#{creationDate}
+                </if>
+                <if test="modifyBy != null and modifyBy!=''">
+                    and modifyBy=#{modifyBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertDevUser" parameterType="com.bdqn.pojo.DevUser">
+        insert into dev_user(
+                        devCode,
+                        devName,
+                        devPassword,
+                        devEmail,
+                        devInfo,
+                        createdBy,
+                        creationDate,
+                        modifyBy,
+                        modifyDate)
+        values(
+                     #{devCode},
+                     #{devName},
+                     #{devPassword},
+                     #{devEmail},
+                     #{devInfo},
+                     #{createdBy},
+                     #{creationDate},
+                     #{modifyBy},
+                    #{modifyDate})
+    </insert>
+
+    <update id="updateDevUser" parameterType="com.bdqn.pojo.DevUser">
+        update dev_user
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="devCode != null and devCode!=''">
+                        devCode=#{devCode},
+                    </if>
+                    <if test="devName != null and devName!=''">
+                        devName=#{devName},
+                    </if>
+                    <if test="devPassword != null and devPassword!=''">
+                        devPassword=#{devPassword},
+                    </if>
+                    <if test="devEmail != null and devEmail!=''">
+                        devEmail=#{devEmail},
+                    </if>
+                    <if test="devInfo != null and devInfo!=''">
+                        devInfo=#{devInfo},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        creationDate=#{creationDate},
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        modifyBy=#{modifyBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteDevUserById" parameterType="Integer">
+        delete from dev_user where id = #{id}
+    </delete>
+</mapper>

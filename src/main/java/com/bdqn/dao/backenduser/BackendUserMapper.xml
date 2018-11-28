@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.backenduser.BackendUserMapper">
+
+    <select id="getBackendUserById" resultType="com.bdqn.pojo.BackendUser" >
+        select
+                id as id,
+                userCode as userCode,
+                userName as userName,
+                userType as userType,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                userPassword as userPassword
+        from backend_user
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getBackendUserListByMap" resultType="com.bdqn.pojo.BackendUser" parameterType="java.util.Map">
+        select
+                id as id,
+                userCode as userCode,
+                userName as userName,
+                userType as userType,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                userPassword as userPassword
+        from backend_user
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="userCode != null and userCode!=''">
+                        and userCode=#{userCode}
+                    </if>
+                    <if test="userName != null and userName!=''">
+                        and userName=#{userName}
+                    </if>
+                    <if test="userType != null and userType!=''">
+                        and userType=#{userType}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        and creationDate=#{creationDate}
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        and modifyBy=#{modifyBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+                    <if test="userPassword != null and userPassword!=''">
+                        and userPassword=#{userPassword}
+                    </if>
+        </trim>
+         order by createDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getBackendUserCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from backend_user
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="userCode != null and userCode!=''">
+                    and userCode=#{userCode}
+                </if>
+                <if test="userName != null and userName!=''">
+                    and userName=#{userName}
+                </if>
+                <if test="userType != null and userType!=''">
+                    and userType=#{userType}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="creationDate != null and creationDate!=''">
+                    and creationDate=#{creationDate}
+                </if>
+                <if test="modifyBy != null and modifyBy!=''">
+                    and modifyBy=#{modifyBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+                <if test="userPassword != null and userPassword!=''">
+                    and userPassword=#{userPassword}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertBackendUser" parameterType="com.bdqn.pojo.BackendUser">
+        insert into backend_user(
+                        userCode,
+                        userName,
+                        userType,
+                        createdBy,
+                        creationDate,
+                        modifyBy,
+                        modifyDate,
+                        userPassword)
+        values(
+                     #{userCode},
+                     #{userName},
+                     #{userType},
+                     #{createdBy},
+                     #{creationDate},
+                     #{modifyBy},
+                     #{modifyDate},
+                    #{userPassword})
+    </insert>
+
+    <update id="updateBackendUser" parameterType="com.bdqn.pojo.BackendUser">
+        update backend_user
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="userCode != null and userCode!=''">
+                        userCode=#{userCode},
+                    </if>
+                    <if test="userName != null and userName!=''">
+                        userName=#{userName},
+                    </if>
+                    <if test="userType != null and userType!=''">
+                        userType=#{userType},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        creationDate=#{creationDate},
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        modifyBy=#{modifyBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate},
+                    </if>
+                    <if test="userPassword != null and userPassword!=''">
+                        userPassword=#{userPassword}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteBackendUserById" parameterType="Integer">
+        delete from backend_user where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.appinfo.AppInfoMapper">
+
+    <select id="getAppInfoById" resultType="com.bdqn.pojo.AppInfo" >
+        select
+                id as id,
+                softwareName as softwareName,
+                APKName as APKName,
+                supportROM as supportROM,
+                interfaceLanguage as interfaceLanguage,
+                softwareSize as softwareSize,
+                updateDate as updateDate,
+                devId as devId,
+                appInfo as appInfo,
+                status as status,
+                onSaleDate as onSaleDate,
+                offSaleDate as offSaleDate,
+                flatformId as flatformId,
+                categoryLevel3 as categoryLevel3,
+                downloads as downloads,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                categoryLevel1 as categoryLevel1,
+                categoryLevel2 as categoryLevel2,
+                logoPicPath as logoPicPath,
+                logoLocPath as logoLocPath,
+                versionId as versionId
+        from app_info
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getAppInfoListByMap" resultType="com.bdqn.pojo.AppInfo" parameterType="java.util.Map">
+        select
+                id as id,
+                softwareName as softwareName,
+                APKName as APKName,
+                supportROM as supportROM,
+                interfaceLanguage as interfaceLanguage,
+                softwareSize as softwareSize,
+                updateDate as updateDate,
+                devId as devId,
+                appInfo as appInfo,
+                status as status,
+                onSaleDate as onSaleDate,
+                offSaleDate as offSaleDate,
+                flatformId as flatformId,
+                categoryLevel3 as categoryLevel3,
+                downloads as downloads,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                categoryLevel1 as categoryLevel1,
+                categoryLevel2 as categoryLevel2,
+                logoPicPath as logoPicPath,
+                logoLocPath as logoLocPath,
+                versionId as versionId
+        from app_info
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="softwareName != null and softwareName!=''">
+                        and softwareName=#{softwareName}
+                    </if>
+                    <if test="APKName != null and APKName!=''">
+                        and APKName=#{APKName}
+                    </if>
+                    <if test="supportROM != null and supportROM!=''">
+                        and supportROM=#{supportROM}
+                    </if>
+                    <if test="interfaceLanguage != null and interfaceLanguage!=''">
+                        and interfaceLanguage=#{interfaceLanguage}
+                    </if>
+                    <if test="softwareSize != null and softwareSize!=''">
+                        and softwareSize=#{softwareSize}
+                    </if>
+                    <if test="updateDate != null and updateDate!=''">
+                        and updateDate=#{updateDate}
+                    </if>
+                    <if test="devId != null and devId!=''">
+                        and devId=#{devId}
+                    </if>
+                    <if test="appInfo != null and appInfo!=''">
+                        and appInfo=#{appInfo}
+                    </if>
+                    <if test="status != null and status!=''">
+                        and status=#{status}
+                    </if>
+                    <if test="onSaleDate != null and onSaleDate!=''">
+                        and onSaleDate=#{onSaleDate}
+                    </if>
+                    <if test="offSaleDate != null and offSaleDate!=''">
+                        and offSaleDate=#{offSaleDate}
+                    </if>
+                    <if test="flatformId != null and flatformId!=''">
+                        and flatformId=#{flatformId}
+                    </if>
+                    <if test="categoryLevel3 != null and categoryLevel3!=''">
+                        and categoryLevel3=#{categoryLevel3}
+                    </if>
+                    <if test="downloads != null and downloads!=''">
+                        and downloads=#{downloads}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        and creationDate=#{creationDate}
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        and modifyBy=#{modifyBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+                    <if test="categoryLevel1 != null and categoryLevel1!=''">
+                        and categoryLevel1=#{categoryLevel1}
+                    </if>
+                    <if test="categoryLevel2 != null and categoryLevel2!=''">
+                        and categoryLevel2=#{categoryLevel2}
+                    </if>
+                    <if test="logoPicPath != null and logoPicPath!=''">
+                        and logoPicPath=#{logoPicPath}
+                    </if>
+                    <if test="logoLocPath != null and logoLocPath!=''">
+                        and logoLocPath=#{logoLocPath}
+                    </if>
+                    <if test="versionId != null and versionId!=''">
+                        and versionId=#{versionId}
+                    </if>
+        </trim>
+         order by createDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getAppInfoCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from app_info
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="softwareName != null and softwareName!=''">
+                    and softwareName=#{softwareName}
+                </if>
+                <if test="APKName != null and APKName!=''">
+                    and APKName=#{APKName}
+                </if>
+                <if test="supportROM != null and supportROM!=''">
+                    and supportROM=#{supportROM}
+                </if>
+                <if test="interfaceLanguage != null and interfaceLanguage!=''">
+                    and interfaceLanguage=#{interfaceLanguage}
+                </if>
+                <if test="softwareSize != null and softwareSize!=''">
+                    and softwareSize=#{softwareSize}
+                </if>
+                <if test="updateDate != null and updateDate!=''">
+                    and updateDate=#{updateDate}
+                </if>
+                <if test="devId != null and devId!=''">
+                    and devId=#{devId}
+                </if>
+                <if test="appInfo != null and appInfo!=''">
+                    and appInfo=#{appInfo}
+                </if>
+                <if test="status != null and status!=''">
+                    and status=#{status}
+                </if>
+                <if test="onSaleDate != null and onSaleDate!=''">
+                    and onSaleDate=#{onSaleDate}
+                </if>
+                <if test="offSaleDate != null and offSaleDate!=''">
+                    and offSaleDate=#{offSaleDate}
+                </if>
+                <if test="flatformId != null and flatformId!=''">
+                    and flatformId=#{flatformId}
+                </if>
+                <if test="categoryLevel3 != null and categoryLevel3!=''">
+                    and categoryLevel3=#{categoryLevel3}
+                </if>
+                <if test="downloads != null and downloads!=''">
+                    and downloads=#{downloads}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="creationDate != null and creationDate!=''">
+                    and creationDate=#{creationDate}
+                </if>
+                <if test="modifyBy != null and modifyBy!=''">
+                    and modifyBy=#{modifyBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+                <if test="categoryLevel1 != null and categoryLevel1!=''">
+                    and categoryLevel1=#{categoryLevel1}
+                </if>
+                <if test="categoryLevel2 != null and categoryLevel2!=''">
+                    and categoryLevel2=#{categoryLevel2}
+                </if>
+                <if test="logoPicPath != null and logoPicPath!=''">
+                    and logoPicPath=#{logoPicPath}
+                </if>
+                <if test="logoLocPath != null and logoLocPath!=''">
+                    and logoLocPath=#{logoLocPath}
+                </if>
+                <if test="versionId != null and versionId!=''">
+                    and versionId=#{versionId}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertAppInfo" parameterType="com.bdqn.pojo.AppInfo">
+        insert into app_info(
+                        softwareName,
+                        APKName,
+                        supportROM,
+                        interfaceLanguage,
+                        softwareSize,
+                        updateDate,
+                        devId,
+                        appInfo,
+                        status,
+                        onSaleDate,
+                        offSaleDate,
+                        flatformId,
+                        categoryLevel3,
+                        downloads,
+                        createdBy,
+                        creationDate,
+                        modifyBy,
+                        modifyDate,
+                        categoryLevel1,
+                        categoryLevel2,
+                        logoPicPath,
+                        logoLocPath,
+                        versionId)
+        values(
+                     #{softwareName},
+                     #{APKName},
+                     #{supportROM},
+                     #{interfaceLanguage},
+                     #{softwareSize},
+                     #{updateDate},
+                     #{devId},
+                     #{appInfo},
+                     #{status},
+                     #{onSaleDate},
+                     #{offSaleDate},
+                     #{flatformId},
+                     #{categoryLevel3},
+                     #{downloads},
+                     #{createdBy},
+                     #{creationDate},
+                     #{modifyBy},
+                     #{modifyDate},
+                     #{categoryLevel1},
+                     #{categoryLevel2},
+                     #{logoPicPath},
+                     #{logoLocPath},
+                    #{versionId})
+    </insert>
+
+    <update id="updateAppInfo" parameterType="com.bdqn.pojo.AppInfo">
+        update app_info
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="softwareName != null and softwareName!=''">
+                        softwareName=#{softwareName},
+                    </if>
+                    <if test="APKName != null and APKName!=''">
+                        APKName=#{APKName},
+                    </if>
+                    <if test="supportROM != null and supportROM!=''">
+                        supportROM=#{supportROM},
+                    </if>
+                    <if test="interfaceLanguage != null and interfaceLanguage!=''">
+                        interfaceLanguage=#{interfaceLanguage},
+                    </if>
+                    <if test="softwareSize != null and softwareSize!=''">
+                        softwareSize=#{softwareSize},
+                    </if>
+                    <if test="updateDate != null and updateDate!=''">
+                        updateDate=#{updateDate},
+                    </if>
+                    <if test="devId != null and devId!=''">
+                        devId=#{devId},
+                    </if>
+                    <if test="appInfo != null and appInfo!=''">
+                        appInfo=#{appInfo},
+                    </if>
+                    <if test="status != null and status!=''">
+                        status=#{status},
+                    </if>
+                    <if test="onSaleDate != null and onSaleDate!=''">
+                        onSaleDate=#{onSaleDate},
+                    </if>
+                    <if test="offSaleDate != null and offSaleDate!=''">
+                        offSaleDate=#{offSaleDate},
+                    </if>
+                    <if test="flatformId != null and flatformId!=''">
+                        flatformId=#{flatformId},
+                    </if>
+                    <if test="categoryLevel3 != null and categoryLevel3!=''">
+                        categoryLevel3=#{categoryLevel3},
+                    </if>
+                    <if test="downloads != null and downloads!=''">
+                        downloads=#{downloads},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        creationDate=#{creationDate},
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        modifyBy=#{modifyBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate},
+                    </if>
+                    <if test="categoryLevel1 != null and categoryLevel1!=''">
+                        categoryLevel1=#{categoryLevel1},
+                    </if>
+                    <if test="categoryLevel2 != null and categoryLevel2!=''">
+                        categoryLevel2=#{categoryLevel2},
+                    </if>
+                    <if test="logoPicPath != null and logoPicPath!=''">
+                        logoPicPath=#{logoPicPath},
+                    </if>
+                    <if test="logoLocPath != null and logoLocPath!=''">
+                        logoLocPath=#{logoLocPath},
+                    </if>
+                    <if test="versionId != null and versionId!=''">
+                        versionId=#{versionId}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteAppInfoById" parameterType="Integer">
+        delete from app_info where id = #{id}
+    </delete>
+</mapper>

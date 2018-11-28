@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.appcategory.AppCategoryMapper">
+
+    <select id="getAppCategoryById" resultType="com.bdqn.pojo.AppCategory" >
+        select
+                id as id,
+                categoryCode as categoryCode,
+                categoryName as categoryName,
+                parentId as parentId,
+                createdBy as createdBy,
+                creationTime as creationTime,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate
+        from app_category
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getAppCategoryListByMap" resultType="com.bdqn.pojo.AppCategory" parameterType="java.util.Map">
+        select
+                id as id,
+                categoryCode as categoryCode,
+                categoryName as categoryName,
+                parentId as parentId,
+                createdBy as createdBy,
+                creationTime as creationTime,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate
+        from app_category
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="categoryCode != null and categoryCode!=''">
+                        and categoryCode=#{categoryCode}
+                    </if>
+                    <if test="categoryName != null and categoryName!=''">
+                        and categoryName=#{categoryName}
+                    </if>
+                    <if test="parentId != null and parentId!=''">
+                        and parentId=#{parentId}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="creationTime != null and creationTime!=''">
+                        and creationTime=#{creationTime}
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        and modifyBy=#{modifyBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+        </trim>
+         order by createDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getAppCategoryCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from app_category
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="categoryCode != null and categoryCode!=''">
+                    and categoryCode=#{categoryCode}
+                </if>
+                <if test="categoryName != null and categoryName!=''">
+                    and categoryName=#{categoryName}
+                </if>
+                <if test="parentId != null and parentId!=''">
+                    and parentId=#{parentId}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="creationTime != null and creationTime!=''">
+                    and creationTime=#{creationTime}
+                </if>
+                <if test="modifyBy != null and modifyBy!=''">
+                    and modifyBy=#{modifyBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertAppCategory" parameterType="com.bdqn.pojo.AppCategory">
+        insert into app_category(
+                        categoryCode,
+                        categoryName,
+                        parentId,
+                        createdBy,
+                        creationTime,
+                        modifyBy,
+                        modifyDate)
+        values(
+                     #{categoryCode},
+                     #{categoryName},
+                     #{parentId},
+                     #{createdBy},
+                     #{creationTime},
+                     #{modifyBy},
+                    #{modifyDate})
+    </insert>
+
+    <update id="updateAppCategory" parameterType="com.bdqn.pojo.AppCategory">
+        update app_category
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="categoryCode != null and categoryCode!=''">
+                        categoryCode=#{categoryCode},
+                    </if>
+                    <if test="categoryName != null and categoryName!=''">
+                        categoryName=#{categoryName},
+                    </if>
+                    <if test="parentId != null and parentId!=''">
+                        parentId=#{parentId},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="creationTime != null and creationTime!=''">
+                        creationTime=#{creationTime},
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        modifyBy=#{modifyBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteAppCategoryById" parameterType="Integer">
+        delete from app_category where id = #{id}
+    </delete>
+</mapper>

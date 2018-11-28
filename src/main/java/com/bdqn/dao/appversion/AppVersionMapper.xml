@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.appversion.AppVersionMapper">
+
+    <select id="getAppVersionById" resultType="com.bdqn.pojo.AppVersion" >
+        select
+                id as id,
+                appId as appId,
+                versionNo as versionNo,
+                versionInfo as versionInfo,
+                publishStatus as publishStatus,
+                downloadLink as downloadLink,
+                versionSize as versionSize,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                apkLocPath as apkLocPath,
+                apkFileName as apkFileName
+        from app_version
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getAppVersionListByMap" resultType="com.bdqn.pojo.AppVersion" parameterType="java.util.Map">
+        select
+                id as id,
+                appId as appId,
+                versionNo as versionNo,
+                versionInfo as versionInfo,
+                publishStatus as publishStatus,
+                downloadLink as downloadLink,
+                versionSize as versionSize,
+                createdBy as createdBy,
+                creationDate as creationDate,
+                modifyBy as modifyBy,
+                modifyDate as modifyDate,
+                apkLocPath as apkLocPath,
+                apkFileName as apkFileName
+        from app_version
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="appId != null and appId!=''">
+                        and appId=#{appId}
+                    </if>
+                    <if test="versionNo != null and versionNo!=''">
+                        and versionNo=#{versionNo}
+                    </if>
+                    <if test="versionInfo != null and versionInfo!=''">
+                        and versionInfo=#{versionInfo}
+                    </if>
+                    <if test="publishStatus != null and publishStatus!=''">
+                        and publishStatus=#{publishStatus}
+                    </if>
+                    <if test="downloadLink != null and downloadLink!=''">
+                        and downloadLink=#{downloadLink}
+                    </if>
+                    <if test="versionSize != null and versionSize!=''">
+                        and versionSize=#{versionSize}
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        and createdBy=#{createdBy}
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        and creationDate=#{creationDate}
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        and modifyBy=#{modifyBy}
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        and modifyDate=#{modifyDate}
+                    </if>
+                    <if test="apkLocPath != null and apkLocPath!=''">
+                        and apkLocPath=#{apkLocPath}
+                    </if>
+                    <if test="apkFileName != null and apkFileName!=''">
+                        and apkFileName=#{apkFileName}
+                    </if>
+        </trim>
+         order by createDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getAppVersionCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from app_version
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="appId != null and appId!=''">
+                    and appId=#{appId}
+                </if>
+                <if test="versionNo != null and versionNo!=''">
+                    and versionNo=#{versionNo}
+                </if>
+                <if test="versionInfo != null and versionInfo!=''">
+                    and versionInfo=#{versionInfo}
+                </if>
+                <if test="publishStatus != null and publishStatus!=''">
+                    and publishStatus=#{publishStatus}
+                </if>
+                <if test="downloadLink != null and downloadLink!=''">
+                    and downloadLink=#{downloadLink}
+                </if>
+                <if test="versionSize != null and versionSize!=''">
+                    and versionSize=#{versionSize}
+                </if>
+                <if test="createdBy != null and createdBy!=''">
+                    and createdBy=#{createdBy}
+                </if>
+                <if test="creationDate != null and creationDate!=''">
+                    and creationDate=#{creationDate}
+                </if>
+                <if test="modifyBy != null and modifyBy!=''">
+                    and modifyBy=#{modifyBy}
+                </if>
+                <if test="modifyDate != null and modifyDate!=''">
+                    and modifyDate=#{modifyDate}
+                </if>
+                <if test="apkLocPath != null and apkLocPath!=''">
+                    and apkLocPath=#{apkLocPath}
+                </if>
+                <if test="apkFileName != null and apkFileName!=''">
+                    and apkFileName=#{apkFileName}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertAppVersion" parameterType="com.bdqn.pojo.AppVersion">
+        insert into app_version(
+                        appId,
+                        versionNo,
+                        versionInfo,
+                        publishStatus,
+                        downloadLink,
+                        versionSize,
+                        createdBy,
+                        creationDate,
+                        modifyBy,
+                        modifyDate,
+                        apkLocPath,
+                        apkFileName)
+        values(
+                     #{appId},
+                     #{versionNo},
+                     #{versionInfo},
+                     #{publishStatus},
+                     #{downloadLink},
+                     #{versionSize},
+                     #{createdBy},
+                     #{creationDate},
+                     #{modifyBy},
+                     #{modifyDate},
+                     #{apkLocPath},
+                    #{apkFileName})
+    </insert>
+
+    <update id="updateAppVersion" parameterType="com.bdqn.pojo.AppVersion">
+        update app_version
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="appId != null and appId!=''">
+                        appId=#{appId},
+                    </if>
+                    <if test="versionNo != null and versionNo!=''">
+                        versionNo=#{versionNo},
+                    </if>
+                    <if test="versionInfo != null and versionInfo!=''">
+                        versionInfo=#{versionInfo},
+                    </if>
+                    <if test="publishStatus != null and publishStatus!=''">
+                        publishStatus=#{publishStatus},
+                    </if>
+                    <if test="downloadLink != null and downloadLink!=''">
+                        downloadLink=#{downloadLink},
+                    </if>
+                    <if test="versionSize != null and versionSize!=''">
+                        versionSize=#{versionSize},
+                    </if>
+                    <if test="createdBy != null and createdBy!=''">
+                        createdBy=#{createdBy},
+                    </if>
+                    <if test="creationDate != null and creationDate!=''">
+                        creationDate=#{creationDate},
+                    </if>
+                    <if test="modifyBy != null and modifyBy!=''">
+                        modifyBy=#{modifyBy},
+                    </if>
+                    <if test="modifyDate != null and modifyDate!=''">
+                        modifyDate=#{modifyDate},
+                    </if>
+                    <if test="apkLocPath != null and apkLocPath!=''">
+                        apkLocPath=#{apkLocPath},
+                    </if>
+                    <if test="apkFileName != null and apkFileName!=''">
+                        apkFileName=#{apkFileName}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteAppVersionById" parameterType="Integer">
+        delete from app_version where id = #{id}
+    </delete>
+</mapper>
