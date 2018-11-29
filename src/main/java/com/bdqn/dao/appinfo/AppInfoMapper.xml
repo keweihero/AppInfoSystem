@@ -139,7 +139,7 @@
                         and versionId=#{versionId}
                     </if>
         </trim>
-         order by createDate desc
+         order by creationDate desc
         <if test="start!=null and size!=null">
             limit #{start},#{size}
         </if>

@@ -7,14 +7,15 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					APP 信息管理维护 <i class="fa fa-user"></i><small>显示开发者姓名
-						- 您可以通过搜索或者其他的筛选项对APP的信息进行修改、删除等管理操作。^_^</small>
+					APP 信息管理维护 <i class="fa fa-user"></i><small>${sessionScope.userSession.devName}
+
+					- 您可以通过搜索或者其他的筛选项对APP的信息进行修改、删除等管理操作。^_^</small>
 				</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="list">
-					<input type="hidden" name="pageIndex" value="1" />
+				<form method="post" action="${pageContext.request.contextPath }/dev/flatform/app/list.action" name="frmSearch">
+					<input type="hidden" name="currentPage" value="1" />
 			    <ul>
 					<li>
 						<div class="form-group">
@@ -135,7 +136,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="appInfo" items="${appInfoList }" varStatus="status">
+								<c:forEach var="appInfo" items="${appInfo.list }" varStatus="status">
 									<tr role="row" class="odd">
 										<td tabindex="0" class="sorting_1">${appInfo.softwareName}</td>
 										<td>${appInfo.APKName }</td>
@@ -189,34 +190,38 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="dataTables_info" id="datatable-responsive_info"
-							role="status" aria-live="polite">共${pages.totalCount }条记录
-							${pages.currentPageNo }/${pages.totalPageCount }页</div>
+							role="status" aria-live="polite">共${appInfo.pageCount }条记录
+							${appInfo.currentPage }/${appInfo.pageCount }页</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="dataTables_paginate paging_simple_numbers"
 							id="datatable-responsive_paginate">
-							<ul class="pagination">
-								<c:if test="${pages.currentPageNo > 1}">
+							<ul class="pagination" id="pageInfo">
+								<c:if test="${appInfo.currentPage > 1}">
 									<li class="paginate_button previous"><a
-										href="javascript:page_nav(document.forms[0],1);"
+										href="javascript:;"
 										aria-controls="datatable-responsive" data-dt-idx="0"
+										cur="1"
 										tabindex="0">首页</a>
 									</li>
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo-1});"
+										href="javascript:;"
 										aria-controls="datatable-responsive" data-dt-idx="1"
+										cur="${appInfo.prev}"
 										tabindex="0">上一页</a>
 									</li>
 								</c:if>
-								<c:if test="${pages.currentPageNo < pages.totalPageCount }">
+								<c:if test="${appInfo.currentPage < appInfo.pageCount }">
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo+1 });"
+										href="javascript:;"
 										aria-controls="datatable-responsive" data-dt-idx="1"
+										cur="${appInfo.next}"
 										tabindex="0">下一页</a>
 									</li>
 									<li class="paginate_button next"><a
-										href="javascript:page_nav(document.forms[0],${pages.totalPageCount });"
+										href="javascript:;"
 										aria-controls="datatable-responsive" data-dt-idx="7"
+										cur="${appInfo.pageCount}"
 										tabindex="0">最后一页</a>
 									</li>
 								</c:if>
@@ -233,3 +238,7 @@
 <%@include file="common/footer.jsp"%>
 <script src="${pageContext.request.contextPath }/statics/localjs/rollpage.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
+<script type="text/javascript">
+
+
+</script>
