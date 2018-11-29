@@ -40,7 +40,7 @@
               <div>
                 <input type="password" class="form-control" name="devPassword" placeholder="请输入密码" required="" />
               </div>
-              <span>显示错误信息</span>
+              <span style="color: red;"><strong>${e.message}</strong></span>
               <div>
               	<button type="submit" class="btn btn-success">登     录</button>
               	<button type="reset" class="btn btn-default">重　填</button>

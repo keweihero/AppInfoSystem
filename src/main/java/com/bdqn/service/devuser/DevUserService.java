@@ -24,4 +24,6 @@ public interface DevUserService {
     Integer deleteDevUserById(Integer id);
 
     PageBean<DevUser> queryDevUserPageByMap(Map<String, Object> param, Integer size, Integer cur);
+
+    DevUser doLogin(Map<String, Object> param);
 }

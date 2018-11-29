@@ -17,6 +17,15 @@ public class DevUserServiceImpl implements DevUserService {
     @Resource
     private DevUserMapper devUserMapper;
 
+    @Override
+    public DevUser doLogin(Map<String, Object> param) {
+        List<DevUser> devUsers = getDevUserListByMap(param);
+        if(devUsers.size() > 0) {
+            return devUsers.get(0);
+        }
+        return null;
+    }
+
 	@Override
     public DevUser getDevUserById(Integer id){
 			 return devUserMapper.getDevUserById(id);
@@ -57,4 +66,6 @@ public class DevUserServiceImpl implements DevUserService {
             pageBean.setList(devUserList);
             return pageBean;
     }
+
+
 }
