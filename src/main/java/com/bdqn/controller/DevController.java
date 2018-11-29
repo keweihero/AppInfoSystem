@@ -63,23 +63,34 @@ public class DevController {
      * @return
      */
     @RequestMapping("/flatform/app/list.action")
-    public String doList(Model model,String currentPage){
+    public String doList(Model model,String currentPage, String status, String flatformId, String softwareName){
         LOG.info("APP信息管理系统,DevController:doList()接收到请求");
         Map<String, Object> appParam = new HashMap<>(16);
+        LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 status:" + status);
+        LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 softwareName:" + softwareName);
+        if("0".equals(status)){
+            status = null;
+        }
+        if("0".equals(flatformId)){
+            flatformId = null;
+        }
+        appParam.put("status", status);
+        appParam.put("softwareName", softwareName);
+        appParam.put("flatformId", flatformId);
         Integer valueOf = null;
         if(null != currentPage){
             valueOf = Integer.valueOf(currentPage);
         }
         PageBean<AppInfo> appInfoPageBean = appInfoService.queryAppInfoPageByMap(appParam, null, valueOf);
-        LOG.info("APP信息管理系统,DevController:doList()处理请求,集合长度:" + appInfoPageBean.getList().size());
+
 
         Map<String, Object> typeCodeMap = new HashMap<>(16);
         typeCodeMap.put("typeCode","APP_FLATFORM");
-        List<DataDictionary> dataDictionaryListByMap = dataDictionaryService.getDataDictionaryListByMap(typeCodeMap);
+        List<DataDictionary> flatformList = dataDictionaryService.getDataDictionaryListByMap(typeCodeMap);
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("typeCode","APP_STATUS");
-        List<DataDictionary> dataMap = dataDictionaryService.getDataDictionaryListByMap(map);
+        List<DataDictionary> statusList = dataDictionaryService.getDataDictionaryListByMap(map);
 
         Map<String, Object> versionMap = new HashMap<>(16);
         List<AppVersion> versionList = appVersionService.getAppVersionListByMap(versionMap);
@@ -97,13 +108,13 @@ public class DevController {
                     app.setCategoryLevel3Name(appCategory.getCategoryName());
                 }
             }
-            for(DataDictionary dataDictionary : dataDictionaryListByMap){
+            for(DataDictionary dataDictionary : flatformList){
                 if(app.getFlatformId() == dataDictionary.getValueId()){
                     app.setFlatformName(dataDictionary.getValueName());
                     break;
                 }
             }
-            for(DataDictionary dataDictionary : dataMap){
+            for(DataDictionary dataDictionary : statusList){
                 if(app.getStatus() == dataDictionary.getValueId()){
                     app.setStatusName(dataDictionary.getValueName());
                     break;
@@ -119,9 +130,15 @@ public class DevController {
                 }
             }
         }
+        LOG.info("APP信息管理系统,DevController:doList()处理请求,集合长度:" + appInfoPageBean.getList().size());
         LOG.info("APP信息管理系统,DevController:doList()响应,appInfoList:" + appInfoPageBean);
-//        model.addAttribute("appInfoList", appInfoPageBean.getList());
         model.addAttribute("appInfo", appInfoPageBean);
+
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("flatformList", flatformList);
+        model.addAttribute("flatformId", flatformId);
+        model.addAttribute("softwareName", softwareName);
+        model.addAttribute("status",status);
         return "forward:/devPage/list.action";
     }
 }

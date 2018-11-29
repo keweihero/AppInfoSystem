@@ -70,7 +70,7 @@
                         and id=#{id}
                     </if>
                     <if test="softwareName != null and softwareName!=''">
-                        and softwareName=#{softwareName}
+                        and softwareName LIKE CONCAT('%',#{softwareName},'%')
                     </if>
                     <if test="APKName != null and APKName!=''">
                         and APKName=#{APKName}

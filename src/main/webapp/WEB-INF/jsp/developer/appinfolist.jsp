@@ -21,7 +21,7 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">软件名称</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input name="querySoftwareName" type="text" class="form-control col-md-7 col-xs-12" value="${querySoftwareName }">
+								<input name="softwareName" type="text" class="form-control col-md-7 col-xs-12" value="${softwareName }">
 							</div>
 						</div>
 					</li>
@@ -30,8 +30,16 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">APP状态</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select name="queryStatus" class="form-control">
-									<!-- APP状态 -->
+								<select name="status" class="form-control">
+									<!-- APP状态 statusList-->
+									<c:if test="${statusList != null}">
+										<option value="0">--请选择--</option>
+										<c:forEach var="statu" items="${statusList}">
+											<option
+												<c:if test="${statu.valueId == status }">selected="selected"</c:if>
+												value="${statu.valueId}">${statu.valueName}</option>
+										</c:forEach>
+									</c:if>
         						</select>
 							</div>
 						</div>
@@ -40,8 +48,16 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">所属平台</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select name="queryFlatformId" class="form-control">
+								<select name="flatformId" class="form-control">
 									<!-- 所属平台 -->
+									<c:if test="${statusList != null}">
+										<option value="0">--请选择--</option>
+										<c:forEach var="flatform" items="${flatformList}">
+											<option
+													<c:if test="${flatform.valueId == flatformId }">selected="selected"</c:if>
+													value="${flatform.valueId}">${flatform.valueName}</option>
+										</c:forEach>
+									</c:if>
         						</select>
 							</div>
 						</div>
@@ -50,7 +66,7 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">一级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select id="queryCategoryLevel1" name="queryCategoryLevel1" class="form-control">
+								<select id="categoryLevel1" name="queryCategoryLevel1" class="form-control">
 									<!-- 一级分类 -->
         						</select>
 							</div>
@@ -61,7 +77,7 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">二级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" name="categorylevel2list" id="categorylevel2list"/>
-        						<select name="queryCategoryLevel2" id="queryCategoryLevel2" class="form-control">
+        						<select name="categoryLevel2" id="queryCategoryLevel2" class="form-control">
         							<!-- 二级分类 -->
         						</select>
 							</div>
@@ -71,7 +87,7 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">三级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-        						<select name="queryCategoryLevel3" id="queryCategoryLevel3" class="form-control">
+        						<select name="categoryLevel3" id="queryCategoryLevel3" class="form-control">
         							<!-- 三级分类 -->
         						</select>
 							</div>
