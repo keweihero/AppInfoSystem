@@ -22,6 +22,10 @@
         </trim>
     </select>
 
+    <select id="getAppCategoryListLevelOne" resultType="com.bdqn.pojo.AppCategory">
+        SELECT * FROM app_category WHERE `parentId` IS NULL
+    </select>
+
     <select id="getAppCategoryListByMap" resultType="com.bdqn.pojo.AppCategory" parameterType="java.util.Map">
         select
                 id as id,

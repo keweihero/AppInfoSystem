@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +64,8 @@ public class DevController {
      * @return
      */
     @RequestMapping("/flatform/app/list.action")
-    public String doList(Model model,String currentPage, String status, String flatformId, String softwareName){
+    public String doList(Model model,String currentPage, String status, String flatformId,
+                         String softwareName, String categoryLevel1, String categoryLevel2, String categoryLevel3){
         LOG.info("APP信息管理系统,DevController:doList()接收到请求");
         Map<String, Object> appParam = new HashMap<>(16);
         LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 status:" + status);
@@ -74,9 +76,21 @@ public class DevController {
         if("0".equals(flatformId)){
             flatformId = null;
         }
+        if("0".equals(categoryLevel1)){
+            categoryLevel1 = null;
+        }
+        if("0".equals(categoryLevel2)){
+            categoryLevel2 = null;
+        }
+        if("0".equals(categoryLevel3)){
+            categoryLevel3 = null;
+        }
         appParam.put("status", status);
         appParam.put("softwareName", softwareName);
         appParam.put("flatformId", flatformId);
+        appParam.put("categoryLevel1", categoryLevel1);
+        appParam.put("categoryLevel2", categoryLevel2);
+        appParam.put("categoryLevel3", categoryLevel3);
         Integer valueOf = null;
         if(null != currentPage){
             valueOf = Integer.valueOf(currentPage);
@@ -96,6 +110,7 @@ public class DevController {
         List<AppVersion> versionList = appVersionService.getAppVersionListByMap(versionMap);
 
         List<AppCategory> appCategoryListByMap = appCategoryService.getAppCategoryListByMap(new HashMap<>(16));
+
         for (AppInfo app : appInfoPageBean.getList()){
             for(AppCategory appCategory : appCategoryListByMap){
                 if(app.getCategoryLevel1() == appCategory.getId()){
@@ -132,6 +147,27 @@ public class DevController {
         }
         LOG.info("APP信息管理系统,DevController:doList()处理请求,集合长度:" + appInfoPageBean.getList().size());
         LOG.info("APP信息管理系统,DevController:doList()响应,appInfoList:" + appInfoPageBean);
+        // TODO 初始化一级分类
+        List<AppCategory> allAppCategoryList = allAppCategoryList = appCategoryService.getAllAppCategoryListLevelOne();
+
+        if(!"0".equals(categoryLevel2)&&null != categoryLevel2){
+            Map<String, Object> categoryLevel2map = new HashMap<>();
+            map.put("parentId", categoryLevel2);
+            List<AppCategory> categoryLevelTwo = appCategoryService.getAppCategoryListByMap(categoryLevel2map);
+            model.addAttribute("categoryLevelTwo", categoryLevelTwo);
+            model.addAttribute("categoryLevel2", categoryLevel2);
+        }
+
+        if(!"0".equals(categoryLevel3)&&null != categoryLevel3){
+            Map<String, Object> categoryLevel3map = new HashMap<>();
+            map.put("parentId", categoryLevel2);
+            List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
+            model.addAttribute("categoryLevelThree", categoryLevelThree);
+            model.addAttribute("categoryLevel3", categoryLevel3);
+        }
+
+        model.addAttribute("categoryLevelOne", allAppCategoryList);
+        model.addAttribute("categoryLevel1", categoryLevel1);
         model.addAttribute("appInfo", appInfoPageBean);
 
         model.addAttribute("statusList", statusList);
@@ -141,4 +177,31 @@ public class DevController {
         model.addAttribute("status",status);
         return "forward:/devPage/list.action";
     }
+
+    // TODO 异步返回数据
+    @RequestMapping("/getAppCategory.action")
+    @ResponseBody
+    public Object getAppCategory(Integer parentId){
+//        List<AppCategory> allAppCategoryList = appCategoryService.getAllAppCategoryList();
+        Map<String, Object> map = new HashMap<>();
+        map.put("parentId", parentId);
+        List<AppCategory> allAppCategoryList = appCategoryService.getAppCategoryListByMap(map);
+        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,parentId:" + parentId);
+        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,allAppCategoryList:" + allAppCategoryList.size());
+        return allAppCategoryList;
+    }
 }
+
+/*
+所有分类数据测试
+ List<AppCategory> allAppCategoryList = appCategoryService.getAllAppCategoryList();
+        for (AppCategory appCategory : allAppCategoryList){
+            System.out.println(appCategory.getId()+"--"+ appCategory.getCategoryName());
+            for(AppCategory appCategory1 : appCategory.getList()){
+                System.out.println("\t"+appCategory1.getId()+"--"+ appCategory1.getCategoryName());
+                for (AppCategory appCategory2 : appCategory1.getList()){
+                    System.out.println("\t\t"+appCategory2.getId()+"--"+ appCategory2.getCategoryName());
+                }
+            }
+        }
+ */

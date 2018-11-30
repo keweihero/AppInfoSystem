@@ -13,6 +13,7 @@ public interface AppCategoryMapper {
 	AppCategory getAppCategoryById(@Param(value = "id") Integer id);
 
 	List<AppCategory> getAppCategoryListByMap(Map<String, Object> param);
+	List<AppCategory> getAppCategoryListLevelOne();
 
 	Integer getAppCategoryCountByMap(Map<String, Object> param);
 

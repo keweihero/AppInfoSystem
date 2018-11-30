@@ -23,5 +23,8 @@ public interface AppCategoryService {
 
     Integer deleteAppCategoryById(Integer id);
 
+    List<AppCategory> getAllAppCategoryList();
+    List<AppCategory> getAllAppCategoryListLevelOne();
+
     PageBean<AppCategory> queryAppCategoryPageByMap(Map<String, Object> param, Integer size, Integer cur);
 }

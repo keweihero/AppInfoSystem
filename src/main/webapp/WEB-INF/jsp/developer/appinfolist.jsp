@@ -66,7 +66,15 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">一级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select id="categoryLevel1" name="queryCategoryLevel1" class="form-control">
+								<select id="categoryLevel1" name="categoryLevel1" class="form-control">
+									<c:if test="${categoryLevelOne != null}">
+										<option value="0">--请选择--</option>
+										<c:forEach var="category" items="${categoryLevelOne}">
+											<option
+													<c:if test="${category.id == categoryLevel1 }">selected="selected"</c:if>
+													value="${category.id}">${category.categoryName}</option>
+										</c:forEach>
+									</c:if>
 									<!-- 一级分类 -->
         						</select>
 							</div>
@@ -77,8 +85,16 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">二级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" name="categorylevel2list" id="categorylevel2list"/>
-        						<select name="categoryLevel2" id="queryCategoryLevel2" class="form-control">
+        						<select name="categoryLevel2" id="categoryLevel2" class="form-control">
         							<!-- 二级分类 -->
+									<c:if test="${categoryLevelTwo != null}">
+										<option value="0">--请选择--</option>
+										<c:forEach var="category" items="${categoryLevelTwo}">
+											<option
+													<c:if test="${category.id == categoryLevel2 }">selected="selected"</c:if>
+													value="${category.id}">${category.categoryName}</option>
+										</c:forEach>
+									</c:if>
         						</select>
 							</div>
 						</div>
@@ -87,8 +103,16 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">三级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-        						<select name="categoryLevel3" id="queryCategoryLevel3" class="form-control">
+        						<select name="categoryLevel3" id="categoryLevel3" class="form-control">
         							<!-- 三级分类 -->
+									<c:if test="${categoryLevelThree != null}">
+										<option value="0">--请选择--</option>
+										<c:forEach var="category" items="${categoryLevelThree}">
+											<option
+													<c:if test="${category.id == categoryLevel3 }">selected="selected"</c:if>
+													value="${category.id}">${category.categoryName}</option>
+										</c:forEach>
+									</c:if>
         						</select>
 							</div>
 						</div>
@@ -255,6 +279,75 @@
 <script src="${pageContext.request.contextPath }/statics/localjs/rollpage.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script type="text/javascript">
+	$(function () {
 
+		$("#categoryLevel1").change(function () {
+            var parentId = $(this).val();
+            $('#categoryLevel2').empty();
+            $.ajax({
+                type:"GET",
+                url: "${pageContext.request.contextPath }/dev/getAppCategory.action",
+                data: {"parentId":parentId},
+                success: function(data){
+                    var obj = eval("("+data+")");
+                    var html = "";
+                    if(obj.length == 0){
+                        html += "<option value=\"0\">-没有分类-</option>";
+                    }else {
+                        html += "<option value=\"0\">--请选择--</option>";
+                        for(var i = 0;i<obj.length;i++){
+                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                        }
+                    }
+
+                    $('#categoryLevel2').append(html);
+                },
+                error: function (e) {
+                    alert(e.toString());
+                }
+            });
+		});
+
+        $("#categoryLevel2").change(function () {
+            var parentId = $(this).val();
+            $('#categoryLevel3').empty();
+            $.ajax({
+                type:"GET",
+                url: "${pageContext.request.contextPath }/dev/getAppCategory.action",
+                data: {"parentId":parentId},
+                success: function(data){
+                    var obj = eval("("+data+")");
+                    var html = "";
+                    if(obj.length == 0){
+                        html += "<option value=\"0\">-没有分类-</option>";
+                    }else {
+                        html += "<option value=\"0\">--请选择--</option>";
+                        for(var i = 0;i<obj.length;i++){
+                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                        }
+                    }
+                    $('#categoryLevel3').append(html);
+                },
+                error: function (e) {
+                    alert(e.toString());
+                }
+            });
+        });
+
+
+
+
+
+
+
+	});
 
 </script>
+<%--
+	<c:if test="${categoryLevelOne != null}">
+		<option value="0">--请选择--</option>
+		<c:forEach var="category" items="${categoryLevelOne}">
+			<option
+					<c:if test="${category.id == categoryLevel1 }">selected="selected"</c:if>
+					value="${category.id}">${category.categoryName}</option>
+	</c:forEach>--%>
