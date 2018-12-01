@@ -19,7 +19,8 @@
          </div>
        </div> -->
            <div class="clearfix"></div>
-        <form class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/app/doAddAppInfo.action" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/app/doAddAppInfo.action"
+              method="post" enctype="multipart/form-data" onsubmit="return check()">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
@@ -34,7 +35,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">APK名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <%-- TODO 异步验证唯一 --%>
+              <%--  异步验证唯一 --%>
               <input id="APKName" class="form-control col-md-7 col-xs-12" 
               	data-validate-length-range="20" data-validate-words="1" name="APKName"   required="required"
               	placeholder="请输入APK名称" type="text">
@@ -66,7 +67,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">软件大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <%-- TODO 软件大小使用数字框 --%>
+              <%-- 软件大小使用数字框 --%>
               <input type="number" id="softwareSize" name="softwareSize"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
               data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb   软件大小只能输入数字" class="form-control col-md-7 col-xs-12">
             </div>
@@ -77,7 +78,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">下载次数 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <%-- TODO 下载次数 使用数字框 --%>
+              <%--  下载次数 使用数字框 --%>
               <input type="number" id="downloads" name="downloads"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
               data-validate-minmax="10,500"  placeholder="请输入下载次数 下载次数只能输入数字" class="form-control col-md-7 col-xs-12">
             </div>
@@ -179,12 +180,51 @@
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfoadd.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script type="text/javascript">
+    // TODO 检查数据,提交表单
+    function check(){
+        var flatformIdValue = $("#flatformId").val();
+        var categoryLevel1Value = $("#categoryLevell").val();
+        var categoryLevel2Value = $("#categoryLevel2").val();
+        var categoryLevel3Value = $("#categoryLevel3").val();
+
+        if(flatformIdValue == 0){
+            var  html1 = "";
+            html1 += "<img src=\"${pageContext.request.contextPath}/statics/images/no.png\" style=\"width: 22px\">";
+            html1 += "<span style=\"color: red\">   请选择所属平台</span>";
+            $("#flatformIdInfo").empty();
+            $("#flatformIdInfo").append(html1);
+            return false;
+        }
+        if(categoryLevel1Value == 0){
+            var  html2 = "";
+            html2 += "<img src=\"${pageContext.request.contextPath}/statics/images/no.png\" style=\"width: 22px\">";
+            html2 += "<span style=\"color: red\">   请选择一级分类</span>";
+            $("#categoryLevel1Info").empty();
+            $("#categoryLevel1Info").append(html2);
+            return false;
+        }
+        if(categoryLevel2Value == 0){
+            var  html3 = "";
+            html3 += "<img src=\"${pageContext.request.contextPath}/statics/images/no.png\" style=\"width: 22px\">";
+            html3 += "<span style=\"color: red\">   请选择二级分类</span>";
+            $("#categoryLevel2Info").empty();
+            $("#categoryLevel2Info").append(html3);
+            return false;
+        }
+        if(categoryLevel3Value == 0){
+            var  html4 = "";
+            html4 += "<img src=\"${pageContext.request.contextPath}/statics/images/no.png\" style=\"width: 22px\">";
+            html4 += "<span style=\"color: red\">   请选择三级分类</span>";
+            $("#categoryLevel3Info").empty();
+            $("#categoryLevel3Info").append(html4);
+            return false;
+        }
+        return true;
+    }
     $(function () {
 
-        // TODO 表单验证 softwareName supportROM interfaceLanguage softwareSize downloads
-        // TODO  categoryLevel1 categoryLevel2 categoryLevel3 a_logoPicPath appInfoInfo
-
-
+        // 表单验证 softwareName supportROM interfaceLanguage softwareSize downloads
+        //  categoryLevel1 categoryLevel2 categoryLevel3 a_logoPicPath appInfoInfo
         $("#a_logoPicPath").blur(function () {
             var a_logoPicPathValue = $(this).val();
             $("#a_logoPicPathInfo").empty();
@@ -370,6 +410,7 @@
         $("#categoryLevel1").change(function () {
             var parentId = $(this).val();
             $('#categoryLevel2').empty();
+            $('#categoryLevel3').empty();
             $.ajax({
                 type:"GET",
                 url: "${pageContext.request.contextPath }/app/getAppCategory.action",

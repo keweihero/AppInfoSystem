@@ -1,6 +1,7 @@
 package com.bdqn.controller;
 
 import com.bdqn.pojo.AppCategory;
+import com.bdqn.pojo.AppInfo;
 import com.bdqn.pojo.DataDictionary;
 import com.bdqn.service.appcategory.AppCategoryService;
 import com.bdqn.service.appinfo.AppInfoService;
@@ -11,10 +12,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +42,13 @@ public class AppInfoController {
     AppVersionService appVersionService;
 
 
-    @RequestMapping("/doAddAppInfo.action")
-    public String doAddAppInfo(HttpSession session){
+
+    // TODO 13参数: 实现提交参数,文件上传
+    @RequestMapping(value = "/doAddAppInfo.action", method = RequestMethod.POST)
+    public String doAddAppInfo(HttpServletRequest request, AppInfo appInfo, MultipartFile a_logoPicPath){
+        // TODO 测试接收的参数
+
+        // TODO 测试文件上传
 
 
 
@@ -76,8 +84,8 @@ public class AppInfoController {
         Map<String, Object> map = new HashMap<>();
         map.put("parentId", parentId);
         List<AppCategory> allAppCategoryList = appCategoryService.getAppCategoryListByMap(map);
-        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,parentId:" + parentId);
-        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,allAppCategoryList:" + allAppCategoryList.size());
+        LOG.info("APP信息管理系统,AppInfoController:getAppCategory()接收到请求,parentId:" + parentId);
+        LOG.info("APP信息管理系统,AppInfoController:getAppCategory()接收到请求,allAppCategoryList:" + allAppCategoryList.size());
         return allAppCategoryList;
     }
 }
