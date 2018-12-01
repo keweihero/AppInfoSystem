@@ -51,7 +51,7 @@ public class AppCategoryServiceImpl implements AppCategoryService {
     }
 
     @Override
-    // TODO 获取所有分类集合
+    // 获取所有分类集合
     public List<AppCategory> getAllAppCategoryList() {
 
 	    // 一级分类

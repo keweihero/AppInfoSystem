@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -64,11 +63,13 @@ public class DevController {
      * @return
      */
     @RequestMapping("/flatform/app/list.action")
-    public String doList(Model model,String currentPage, String status, String flatformId,
+    public String doList(Model model,String currentPage, String status, String flatformId,HttpSession session,
                          String softwareName, String categoryLevel1, String categoryLevel2, String categoryLevel3){
+        DevUser devUser = (DevUser) session.getAttribute(Constants.USER_SESSION);
         LOG.info("APP信息管理系统,DevController:doList()接收到请求");
         Map<String, Object> appParam = new HashMap<>(16);
         LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 status:" + status);
+        LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 createdBy:" + devUser.getId());
         LOG.info("APP信息管理系统,DevController:doList()处理请求,参数 softwareName:" + softwareName);
         if("0".equals(status)){
             status = null;
@@ -85,7 +86,9 @@ public class DevController {
         if("0".equals(categoryLevel3)){
             categoryLevel3 = null;
         }
+
         appParam.put("status", status);
+        appParam.put("createdBy", devUser.getId());
         appParam.put("softwareName", softwareName);
         appParam.put("flatformId", flatformId);
         appParam.put("categoryLevel1", categoryLevel1);
@@ -147,7 +150,7 @@ public class DevController {
         }
         LOG.info("APP信息管理系统,DevController:doList()处理请求,集合长度:" + appInfoPageBean.getList().size());
         LOG.info("APP信息管理系统,DevController:doList()响应,appInfoList:" + appInfoPageBean);
-        // TODO 初始化一级分类
+        // 初始化一级分类
         List<AppCategory> allAppCategoryList = allAppCategoryList = appCategoryService.getAllAppCategoryListLevelOne();
 
         if(!"0".equals(categoryLevel2)&&null != categoryLevel2){
@@ -178,18 +181,8 @@ public class DevController {
         return "forward:/devPage/list.action";
     }
 
-    // TODO 异步返回数据
-    @RequestMapping("/getAppCategory.action")
-    @ResponseBody
-    public Object getAppCategory(Integer parentId){
-//        List<AppCategory> allAppCategoryList = appCategoryService.getAllAppCategoryList();
-        Map<String, Object> map = new HashMap<>();
-        map.put("parentId", parentId);
-        List<AppCategory> allAppCategoryList = appCategoryService.getAppCategoryListByMap(map);
-        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,parentId:" + parentId);
-        LOG.info("APP信息管理系统,DevController:getAppCategory()接收到请求,allAppCategoryList:" + allAppCategoryList.size());
-        return allAppCategoryList;
-    }
+
+
 }
 
 /*

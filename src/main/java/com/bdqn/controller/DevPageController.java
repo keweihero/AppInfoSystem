@@ -24,8 +24,14 @@ public class DevPageController {
         session.removeAttribute(Constants.USER_SESSION);
         return "devlogin";
     }
+
     @RequestMapping("/list.action")
     public String doList(){
         return "/developer/appinfolist";
+    }
+
+    @RequestMapping("/appinfoadd.action")
+    public String appinfoadd(){
+        return "/developer/appinfoadd";
     }
 }

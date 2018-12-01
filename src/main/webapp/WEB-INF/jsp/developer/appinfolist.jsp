@@ -50,7 +50,7 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select name="flatformId" class="form-control">
 									<!-- 所属平台 -->
-									<c:if test="${statusList != null}">
+									<c:if test="${flatformList != null}">
 										<option value="0">--请选择--</option>
 										<c:forEach var="flatform" items="${flatformList}">
 											<option
@@ -131,7 +131,7 @@
 				class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 				<div class="row">
 					<div class="col-sm-12">
-					<a href="${pageContext.request.contextPath}/dev/flatform/app/appinfoadd" class="btn btn-success btn-sm">新增APP基础信息</a>
+					<a href="${pageContext.request.contextPath}/app/appinfoadd.action" class="btn btn-success btn-sm">新增APP基础信息</a>
 						<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 							cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
 							<thead>
@@ -140,10 +140,12 @@
 										aria-controls="datatable-responsive" rowspan="1" colspan="1"
 										aria-label="First name: activate to sort column descending"
 										aria-sort="ascending">软件名称</th>
+
 									<th class="sorting" tabindex="0"
 										aria-controls="datatable-responsive" rowspan="1" colspan="1"
 										aria-label="Last name: activate to sort column ascending">
 										APK名称</th>
+
 									<th class="sorting" tabindex="0"
 										aria-controls="datatable-responsive" rowspan="1" colspan="1"
 										aria-label="Last name: activate to sort column ascending">
@@ -230,7 +232,7 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="dataTables_info" id="datatable-responsive_info"
-							role="status" aria-live="polite">共${appInfo.pageCount }条记录
+							role="status" aria-live="polite">共${appInfo.totalCount }条记录
 							${appInfo.currentPage }/${appInfo.pageCount }页</div>
 					</div>
 					<div class="col-sm-7">
@@ -280,13 +282,12 @@
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script type="text/javascript">
 	$(function () {
-
-		$("#categoryLevel1").change(function () {
+        $("#categoryLevel1").change(function () {
             var parentId = $(this).val();
             $('#categoryLevel2').empty();
             $.ajax({
                 type:"GET",
-                url: "${pageContext.request.contextPath }/dev/getAppCategory.action",
+                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
                 data: {"parentId":parentId},
                 success: function(data){
                     var obj = eval("("+data+")");
@@ -306,14 +307,14 @@
                     alert(e.toString());
                 }
             });
-		});
+        });
 
         $("#categoryLevel2").change(function () {
             var parentId = $(this).val();
             $('#categoryLevel3').empty();
             $.ajax({
                 type:"GET",
-                url: "${pageContext.request.contextPath }/dev/getAppCategory.action",
+                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
                 data: {"parentId":parentId},
                 success: function(data){
                     var obj = eval("("+data+")");
@@ -333,13 +334,6 @@
                 }
             });
         });
-
-
-
-
-
-
-
 	});
 
 </script>
