@@ -63,6 +63,42 @@ public class AppInfo implements Serializable {
     private String statusName;
     private String versionNo;
 
+    @Override
+    public String toString() {
+        return "AppInfo{" +
+                "id=" + id +"\n"+
+                ", softwareName='" + softwareName + '\'' +"\n"+
+                ", APKName='" + APKName + '\'' +"\n"+
+                ", supportROM='" + supportROM + '\'' +"\n"+
+                ", interfaceLanguage='" + interfaceLanguage + '\'' +"\n"+
+                ", softwareSize=" + softwareSize +"\n"+
+                ", updateDate=" + updateDate +"\n"+
+                ", devId=" + devId +"\n"+
+                ", appInfo='" + appInfo + '\'' +"\n"+
+                ", status=" + status +"\n"+
+                ", onSaleDate=" + onSaleDate +"\n"+
+                ", offSaleDate=" + offSaleDate +"\n"+
+                ", flatformId=" + flatformId +"\n"+
+                ", flatformName='" + flatformName + '\'' +"\n"+
+                ", categoryLevel3=" + categoryLevel3 +"\n"+
+                ", downloads=" + downloads +"\n"+
+                ", createdBy=" + createdBy +"\n"+
+                ", creationDate=" + creationDate +"\n"+
+                ", modifyBy=" + modifyBy +"\n"+
+                ", modifyDate=" + modifyDate +"\n"+
+                ", categoryLevel1=" + categoryLevel1 +"\n"+
+                ", categoryLevel2=" + categoryLevel2 +"\n"+
+                ", logoPicPath='" + logoPicPath + '\'' +"\n"+
+                ", logoLocPath='" + logoLocPath + '\'' +"\n"+
+                ", versionId=" + versionId +"\n"+
+                ", categoryLevel1Name='" + categoryLevel1Name + '\'' +"\n"+
+                ", categoryLevel2Name='" + categoryLevel2Name + '\'' +"\n"+
+                ", categoryLevel3Name='" + categoryLevel3Name + '\'' +"\n"+
+                ", statusName='" + statusName + '\'' +"\n"+
+                ", versionNo='" + versionNo + '\'' +"\n"+
+                '}';
+    }
+
     //get set 方法
     public void setId (Integer  id){
         this.id=id;

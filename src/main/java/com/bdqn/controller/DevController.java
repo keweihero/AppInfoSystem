@@ -155,7 +155,7 @@ public class DevController {
 
         if(!"0".equals(categoryLevel2)&&null != categoryLevel2){
             Map<String, Object> categoryLevel2map = new HashMap<>();
-            map.put("parentId", categoryLevel2);
+            categoryLevel2map.put("parentId", categoryLevel1);
             List<AppCategory> categoryLevelTwo = appCategoryService.getAppCategoryListByMap(categoryLevel2map);
             model.addAttribute("categoryLevelTwo", categoryLevelTwo);
             model.addAttribute("categoryLevel2", categoryLevel2);
@@ -163,7 +163,7 @@ public class DevController {
 
         if(!"0".equals(categoryLevel3)&&null != categoryLevel3){
             Map<String, Object> categoryLevel3map = new HashMap<>();
-            map.put("parentId", categoryLevel2);
+            categoryLevel3map.put("parentId", categoryLevel2);
             List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
             model.addAttribute("categoryLevelThree", categoryLevelThree);
             model.addAttribute("categoryLevel3", categoryLevel3);

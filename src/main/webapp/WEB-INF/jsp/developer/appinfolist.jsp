@@ -283,56 +283,61 @@
 <script type="text/javascript">
 	$(function () {
         $("#categoryLevel1").change(function () {
-            var parentId = $(this).val();
             $('#categoryLevel2').empty();
-            $.ajax({
-                type:"GET",
-                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
-                data: {"parentId":parentId},
-                success: function(data){
-                    var obj = eval("("+data+")");
-                    var html = "";
-                    if(obj.length == 0){
-                        html += "<option value=\"0\">-没有分类-</option>";
-                    }else {
-                        html += "<option value=\"0\">--请选择--</option>";
-                        for(var i = 0;i<obj.length;i++){
-                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+            $('#categoryLevel3').empty();
+            var parentId = $(this).val();
+            if(parentId != 0){
+                $.ajax({
+                    type:"GET",
+                    url: "${pageContext.request.contextPath }/app/getAppCategory.action",
+                    data: {"parentId":parentId},
+                    success: function(data){
+                        var obj = eval("("+data+")");
+                        var html = "";
+                        if(obj.length == 0){
+                            html += "<option value=\"0\">-没有分类-</option>";
+                        }else {
+                            html += "<option value=\"0\">--请选择--</option>";
+                            for(var i = 0;i<obj.length;i++){
+                                html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                            }
                         }
-                    }
 
-                    $('#categoryLevel2').append(html);
-                },
-                error: function (e) {
-                    alert(e.toString());
-                }
-            });
+                        $('#categoryLevel2').append(html);
+                    },
+                    error: function (e) {
+                        alert(e.toString());
+                    }
+                });
+            }
         });
 
         $("#categoryLevel2").change(function () {
             var parentId = $(this).val();
             $('#categoryLevel3').empty();
-            $.ajax({
-                type:"GET",
-                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
-                data: {"parentId":parentId},
-                success: function(data){
-                    var obj = eval("("+data+")");
-                    var html = "";
-                    if(obj.length == 0){
-                        html += "<option value=\"0\">-没有分类-</option>";
-                    }else {
-                        html += "<option value=\"0\">--请选择--</option>";
-                        for(var i = 0;i<obj.length;i++){
-                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+            if(parentId != 0){
+                $.ajax({
+                    type:"GET",
+                    url: "${pageContext.request.contextPath }/app/getAppCategory.action",
+                    data: {"parentId":parentId},
+                    success: function(data){
+                        var obj = eval("("+data+")");
+                        var html = "";
+                        if(obj.length == 0){
+                            html += "<option value=\"0\">-没有分类-</option>";
+                        }else {
+                            html += "<option value=\"0\">--请选择--</option>";
+                            for(var i = 0;i<obj.length;i++){
+                                html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                            }
                         }
+                        $('#categoryLevel3').append(html);
+                    },
+                    error: function (e) {
+                        alert(e.toString());
                     }
-                    $('#categoryLevel3').append(html);
-                },
-                error: function (e) {
-                    alert(e.toString());
-                }
-            });
+                });
+			}
         });
 	});
 

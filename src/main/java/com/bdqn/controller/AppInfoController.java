@@ -8,6 +8,7 @@ import com.bdqn.service.appinfo.AppInfoService;
 import com.bdqn.service.appversion.AppVersionService;
 import com.bdqn.service.datadictionary.DataDictionaryService;
 import com.bdqn.service.devuser.DevUserService;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +49,50 @@ public class AppInfoController {
 
     // TODO 13参数: 实现提交参数,文件上传
     @RequestMapping(value = "/doAddAppInfo.action", method = RequestMethod.POST)
-    public String doAddAppInfo(HttpServletRequest request, AppInfo appInfo, MultipartFile a_logoPicPath){
-        // TODO 测试接收的参数
+    public String doAddAppInfo(Model model,HttpServletRequest request, AppInfo appInfo, MultipartFile a_logoPicPath) throws IOException {
+        appInfo.setCreationDate(new Timestamp(System.currentTimeMillis()));
 
-        // TODO 测试文件上传
+        String oldFileName = a_logoPicPath.getOriginalFilename();
+        String extension = FilenameUtils.getExtension(oldFileName);
+        String newFileName = appInfo.getAPKName() + "." +extension;
+        String rootPath = request.getServletContext().getRealPath("/");
+        String relativePath = "\\statics\\uploadfiles\\" + newFileName;
+        String fullPath = rootPath + relativePath;
+        appInfo.setLogoPicPath(relativePath);
+        appInfo.setLogoLocPath(fullPath);
+
+        LOG.info("APP信息管理系统,AppInfoController:doAddAppInfo()接收到请求,appInfo:" + appInfo.toString());
+//        Integer integer = appInfoService.addAppInfo(appInfo);
+        Integer integer = 0;
+        if(integer > 0){
+            a_logoPicPath.transferTo(new File(fullPath));
+            return "redirect:/devPage/list.action";
+        }else{
+            List<AppCategory> categoryLevelOne = appCategoryService.getAllAppCategoryListLevelOne();
+            Map<String, Object> typeCodeMap = new HashMap<>(16);
+            typeCodeMap.put("typeCode","APP_FLATFORM");
+            List<DataDictionary> flatformList = dataDictionaryService.getDataDictionaryListByMap(typeCodeMap);
+
+                Map<String, Object> categoryLevel2map = new HashMap<>();
+                categoryLevel2map.put("parentId", appInfo.getCategoryLevel1());
+                List<AppCategory> categoryLevelTwo = appCategoryService.getAppCategoryListByMap(categoryLevel2map);
+                model.addAttribute("categoryLevelTwo", categoryLevelTwo);
+
+
+                Map<String, Object> categoryLevel3map = new HashMap<>();
+                categoryLevel3map.put("parentId", appInfo.getCategoryLevel2());
+                List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
+                model.addAttribute("categoryLevelThree", categoryLevelThree);
+
+            model.addAttribute("flatformList", flatformList);
+            model.addAttribute("categoryLevelOne", categoryLevelOne);
+            model.addAttribute("appInfo",appInfo);
+            // TODO 选项回显 直接返回参数
+            return "forward:/devPage/appinfoadd.action";
+        }
 
 
 
-
-        return "";
     }
 
 //    读取一级分类appinfoadd

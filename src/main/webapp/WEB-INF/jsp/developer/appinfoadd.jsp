@@ -21,13 +21,15 @@
            <div class="clearfix"></div>
         <form class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/app/doAddAppInfo.action"
               method="post" enctype="multipart/form-data" onsubmit="return check()">
+          <input type="hidden" name="devId" value="${sessionScope.userSession.id}">
+          <input type="hidden" name="createdBy" value="${sessionScope.userSession.id}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="softwareName" class="form-control col-md-7 col-xs-12" 
                data-validate-length-range="20" data-validate-words="1" name="softwareName"  required="required"
-               placeholder="请输入软件名称" type="text">
+               placeholder="请输入软件名称" type="text" value="${appInfo.softwareName}">
             </div>
               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="softwareNameInfo"></label>
           </div>
@@ -38,10 +40,11 @@
               <%--  异步验证唯一 --%>
               <input id="APKName" class="form-control col-md-7 col-xs-12" 
               	data-validate-length-range="20" data-validate-words="1" name="APKName"   required="required"
-              	placeholder="请输入APK名称" type="text">
+              	placeholder="请输入APK名称" type="text" value="${appInfo.APKName}">
             </div>
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="APKNameInfo"></label>
+           <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="APKNameInfo"></label>
           </div>
+
           
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">支持ROM <span class="required">*</span>
@@ -49,7 +52,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="supportROM" class="form-control col-md-7 col-xs-12" name="supportROM" 
               	data-validate-length-range="20" data-validate-words="1"   required="required"
-              	placeholder="请输入支持的ROM" type="text">
+              	placeholder="请输入支持的ROM" type="text" value="${appInfo.supportROM}">
             </div>
               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="supportROMInfo"></label>
           </div>
@@ -59,7 +62,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="interfaceLanguage" class="form-control col-md-7 col-xs-12" 
               data-validate-length-range="20" data-validate-words="1" name="interfaceLanguage"   required="required"
-              placeholder="请输入软件支持的界面语言" type="text">
+              placeholder="请输入软件支持的界面语言" type="text" value="${appInfo.supportROM}">
             </div>
               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="interfaceLanguageInfo"></label>
           </div>
@@ -69,7 +72,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <%-- 软件大小使用数字框 --%>
               <input type="number" id="softwareSize" name="softwareSize"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
-              data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb   软件大小只能输入数字" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb   软件大小只能输入数字" class="form-control col-md-7 col-xs-12" value="${appInfo.softwareSize}">
             </div>
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="softwareSizeInfo"></label>
           </div>
@@ -80,7 +83,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <%--  下载次数 使用数字框 --%>
               <input type="number" id="downloads" name="downloads"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
-              data-validate-minmax="10,500"  placeholder="请输入下载次数 下载次数只能输入数字" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入下载次数 下载次数只能输入数字" class="form-control col-md-7 col-xs-12" value="${appInfo.downloads}">
             </div>
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="downloadsInfo"></label>
           </div>
@@ -105,7 +108,7 @@
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="select">一级分类 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="categoryLevel1" id="categoryLevel1" class="form-control"   required="required">
+              <select name="categoryLevel1" id="categoryLevel1" class="form-control"   required="required" >
                 <c:if test="${categoryLevelOne != null}">
                   <option value="0">--请选择--</option>
                   <c:forEach var="category" items="${categoryLevelOne}">
@@ -123,7 +126,14 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">二级分类 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <select name="categoryLevel2" id="categoryLevel2" class="form-control"  required="required">
-
+                  <c:if test="${categoryLevelTwo != null}">
+                    <option value="0">--请选择--</option>
+                    <c:forEach var="category" items="${categoryLevelTwo}">
+                      <option
+                              <c:if test="${category.id == categoryLevel2 }">selected="selected"</c:if>
+                              value="${category.id}">${category.categoryName}</option>
+                    </c:forEach>
+                  </c:if>
               </select>
             </div>
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="categoryLevel2Info"></label>
@@ -133,7 +143,14 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="select">三级分类 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <select name="categoryLevel3" id="categoryLevel3" class="form-control"  required="required">
-
+                <c:if test="${categoryLevelThree != null}">
+                  <option value="0">--请选择--</option>
+                  <c:forEach var="category" items="${categoryLevelThree}">
+                    <option
+                            <c:if test="${category.id == categoryLevel3 }">selected="selected"</c:if>
+                            value="${category.id}">${category.categoryName}</option>
+                  </c:forEach>
+                </c:if>
               </select>
             </div>
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="categoryLevel3Info"></label>
