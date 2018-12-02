@@ -166,7 +166,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">应用简介 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <textarea id="appInfo" name="appInfo"     required="required"
+              <textarea id="appInfo" name="appInfo"     required="required" value="${appInfoInfo}"
               placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12"></textarea>
             </div>
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name" style="text-align: left" id="appInfoInfo"></label>
@@ -428,54 +428,59 @@
             var parentId = $(this).val();
             $('#categoryLevel2').empty();
             $('#categoryLevel3').empty();
-            $.ajax({
-                type:"GET",
-                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
-                data: {"parentId":parentId},
-                success: function(data){
-                    var obj = eval("("+data+")");
-                    var html = "";
-                    if(obj.length == 0){
-                        html += "<option value=\"0\">-没有分类-</option>";
-                    }else {
-                        html += "<option value=\"0\">--请选择--</option>";
-                        for(var i = 0;i<obj.length;i++){
-                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
-                        }
-                    }
 
-                    $('#categoryLevel2').append(html);
-                },
-                error: function (e) {
-                    alert(e.toString());
-                }
-            });
+            if(parentId != 0){
+                $.ajax({
+                    type:"GET",
+                    url: "${pageContext.request.contextPath }/app/getAppCategory.action",
+                    data: {"parentId":parentId},
+                    success: function(data){
+                        var obj = eval("("+data+")");
+                        var html = "";
+                        if(obj.length == 0){
+                            html += "<option value=\"0\">-没有分类-</option>";
+                        }else {
+                            html += "<option value=\"0\">--请选择--</option>";
+                            for(var i = 0;i<obj.length;i++){
+                                html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                            }
+                        }
+                        $('#categoryLevel2').append(html);
+                    },
+                    error: function (e) {
+                        alert(e.toString());
+                    }
+                });
+            }
         });
 
         $("#categoryLevel2").change(function () {
             var parentId = $(this).val();
             $('#categoryLevel3').empty();
-            $.ajax({
-                type:"GET",
-                url: "${pageContext.request.contextPath }/app/getAppCategory.action",
-                data: {"parentId":parentId},
-                success: function(data){
-                    var obj = eval("("+data+")");
-                    var html = "";
-                    if(obj.length == 0){
-                        html += "<option value=\"0\">-没有分类-</option>";
-                    }else {
-                        html += "<option value=\"0\">--请选择--</option>";
-                        for(var i = 0;i<obj.length;i++){
-                            html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+            if(parentId != 0){
+                $.ajax({
+                    type:"GET",
+                    url: "${pageContext.request.contextPath }/app/getAppCategory.action",
+                    data: {"parentId":parentId},
+                    success: function(data){
+                        var obj = eval("("+data+")");
+                        var html = "";
+                        if(obj.length == 0){
+                            html += "<option value=\"0\">-没有分类-</option>";
+                        }else {
+                            html += "<option value=\"0\">--请选择--</option>";
+                            for(var i = 0;i<obj.length;i++){
+                                html += "<option value="+ obj[i].id+">"+obj[i].categoryName+"</option>";
+                            }
                         }
+                        $('#categoryLevel3').append(html);
+                    },
+                    error: function (e) {
+                        alert(e.toString());
                     }
-                    $('#categoryLevel3').append(html);
-                },
-                error: function (e) {
-                    alert(e.toString());
-                }
-            });
+                });
+            }
+
         });
     });
 

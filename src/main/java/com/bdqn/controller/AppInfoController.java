@@ -62,31 +62,35 @@ public class AppInfoController {
         appInfo.setLogoLocPath(fullPath);
 
         LOG.info("APP信息管理系统,AppInfoController:doAddAppInfo()接收到请求,appInfo:" + appInfo.toString());
-//        Integer integer = appInfoService.addAppInfo(appInfo);
-        Integer integer = 0;
+        Integer integer = appInfoService.addAppInfo(appInfo);
         if(integer > 0){
             a_logoPicPath.transferTo(new File(fullPath));
-            return "redirect:/devPage/list.action";
+            return "redirect:/dev/flatform/app/list.action";
         }else{
             List<AppCategory> categoryLevelOne = appCategoryService.getAllAppCategoryListLevelOne();
             Map<String, Object> typeCodeMap = new HashMap<>(16);
             typeCodeMap.put("typeCode","APP_FLATFORM");
             List<DataDictionary> flatformList = dataDictionaryService.getDataDictionaryListByMap(typeCodeMap);
 
-                Map<String, Object> categoryLevel2map = new HashMap<>();
-                categoryLevel2map.put("parentId", appInfo.getCategoryLevel1());
-                List<AppCategory> categoryLevelTwo = appCategoryService.getAppCategoryListByMap(categoryLevel2map);
-                model.addAttribute("categoryLevelTwo", categoryLevelTwo);
+            Map<String, Object> categoryLevel2map = new HashMap<>();
+            categoryLevel2map.put("parentId", appInfo.getCategoryLevel1());
+            List<AppCategory> categoryLevelTwo = appCategoryService.getAppCategoryListByMap(categoryLevel2map);
+            model.addAttribute("categoryLevelTwo", categoryLevelTwo);
 
 
-                Map<String, Object> categoryLevel3map = new HashMap<>();
-                categoryLevel3map.put("parentId", appInfo.getCategoryLevel2());
-                List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
-                model.addAttribute("categoryLevelThree", categoryLevelThree);
+            Map<String, Object> categoryLevel3map = new HashMap<>();
+            categoryLevel3map.put("parentId", appInfo.getCategoryLevel2());
+            List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
+            model.addAttribute("categoryLevelThree", categoryLevelThree);
 
+            model.addAttribute("categoryLevel1", appInfo.getCategoryLevel1());
+            model.addAttribute("categoryLevel2", appInfo.getCategoryLevel2());
+            model.addAttribute("categoryLevel3", appInfo.getCategoryLevel3());
             model.addAttribute("flatformList", flatformList);
+            model.addAttribute("flatformId", appInfo.getFlatformId());
             model.addAttribute("categoryLevelOne", categoryLevelOne);
             model.addAttribute("appInfo",appInfo);
+            model.addAttribute("appInfoInfo",appInfo.getAppInfo());
             // TODO 选项回显 直接返回参数
             return "forward:/devPage/appinfoadd.action";
         }
