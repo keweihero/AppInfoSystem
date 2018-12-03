@@ -23,6 +23,16 @@
               method="post" enctype="multipart/form-data" onsubmit="return check()">
           <input type="hidden" name="devId" value="${sessionScope.userSession.id}">
           <input type="hidden" name="createdBy" value="${sessionScope.userSession.id}">
+          <c:if test="${error != null}">
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">添加状态 <span class="required">*</span></label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input  type="text" class="form-control col-md-7 col-xs-12"
+                        style="color: red;font-weight: bolder"
+                        value="${error}" readonly="readonly">
+              </div>
+            </div>
+          </c:if>
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>

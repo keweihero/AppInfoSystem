@@ -15,6 +15,16 @@
               enctype="multipart/form-data">
           <input type="hidden" name="id" id="id" value="${appInfo.id}">
           <input type="hidden" name="status" id="status" value="${appInfo.status}">
+          <c:if test="${error != null}">
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">修改状态 <span class="required">*</span></label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input  type="text" class="form-control col-md-7 col-xs-12"
+                        style="color: red;font-weight: bolder"
+                        value="${error}" readonly="readonly">
+              </div>
+            </div>
+          </c:if>
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
@@ -213,7 +223,6 @@
           $("#status").val(1);
           $('[name = "frmUpdate"]').submit();
       }else {
-          alert("不修改审核状态");
           $('[name = "frmUpdate"]').submit();
       }
   }

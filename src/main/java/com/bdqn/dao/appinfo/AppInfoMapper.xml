@@ -281,7 +281,7 @@
 
 
     <update id="updateAppInfo" parameterType="com.bdqn.pojo.AppInfo">
-        update app_info set
+        update app_info
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
                     <if test="id != null and id!=''">
                         id=#{id},

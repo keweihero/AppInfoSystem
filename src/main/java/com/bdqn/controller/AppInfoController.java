@@ -67,6 +67,7 @@ public class AppInfoController {
         if(result > 0){
             return "redirect:/dev/flatform/app/list.action";
         }
+
         // 修改失败, 回显;
         List<AppCategory> categoryLevelOne = appCategoryService.getAllAppCategoryListLevelOne();
         Map<String, Object> typeCodeMap = new HashMap<>(16);
@@ -83,6 +84,9 @@ public class AppInfoController {
         categoryLevel3map.put("parentId", appInfo.getCategoryLevel2());
         List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
         model.addAttribute("categoryLevelThree", categoryLevelThree);
+
+
+        model.addAttribute("error", "修改失败");
 
         model.addAttribute("categoryLevel1", appInfo.getCategoryLevel1());
         model.addAttribute("categoryLevel2", appInfo.getCategoryLevel2());
@@ -177,7 +181,7 @@ public class AppInfoController {
             categoryLevel3map.put("parentId", appInfo.getCategoryLevel2());
             List<AppCategory> categoryLevelThree = appCategoryService.getAppCategoryListByMap(categoryLevel3map);
             model.addAttribute("categoryLevelThree", categoryLevelThree);
-
+            model.addAttribute("error", "添加失败");
             model.addAttribute("categoryLevel1", appInfo.getCategoryLevel1());
             model.addAttribute("categoryLevel2", appInfo.getCategoryLevel2());
             model.addAttribute("categoryLevel3", appInfo.getCategoryLevel3());
