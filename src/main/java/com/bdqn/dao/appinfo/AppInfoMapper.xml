@@ -274,8 +274,14 @@
                     #{versionId})
     </insert>
 
+
+    <update id="updateAppInfoImg" parameterType="com.bdqn.pojo.AppInfo">
+        update app_info set logoPicPath = null,logoLocPath = null where id = #{id}
+    </update>
+
+
     <update id="updateAppInfo" parameterType="com.bdqn.pojo.AppInfo">
-        update app_info
+        update app_info set
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
                     <if test="id != null and id!=''">
                         id=#{id},

@@ -20,6 +20,8 @@ public interface AppInfoMapper {
 
 	Integer updateAppInfo(AppInfo appInfo);
 
+	Integer updateAppInfoImg(Integer id);
+
 	Integer deleteAppInfoById(@Param(value = "id") Integer id);
 
 }

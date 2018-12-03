@@ -19,6 +19,8 @@ public interface AppInfoService {
 
     Integer addAppInfo(AppInfo appInfo);
 
+    Integer updateAppInfoImg(Integer id);
+
     Integer modifyAppInfo(AppInfo appInfo);
 
     Integer deleteAppInfoById(Integer id);

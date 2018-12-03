@@ -197,7 +197,7 @@
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfoadd.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script type="text/javascript">
-    // TODO 检查数据,提交表单
+    // 检查数据,提交表单
     function check(){
         var flatformIdValue = $("#flatformId").val();
         var categoryLevel1Value = $("#categoryLevell").val();
@@ -428,7 +428,6 @@
             var parentId = $(this).val();
             $('#categoryLevel2').empty();
             $('#categoryLevel3').empty();
-
             if(parentId != 0){
                 $.ajax({
                     type:"GET",

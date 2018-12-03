@@ -37,7 +37,12 @@ public class AppInfoServiceImpl implements AppInfoService {
 			return appInfoMapper.insertAppInfo(appInfo);
     }
 
-	@Override
+    @Override
+    public Integer updateAppInfoImg(Integer id) {
+        return appInfoMapper.updateAppInfoImg(id);
+    }
+
+    @Override
     public Integer modifyAppInfo(AppInfo appInfo){
 			return appInfoMapper.updateAppInfo(appInfo);
     }

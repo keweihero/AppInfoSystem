@@ -115,6 +115,7 @@ public class DevController {
         List<AppCategory> appCategoryListByMap = appCategoryService.getAppCategoryListByMap(new HashMap<>(16));
 
         for (AppInfo app : appInfoPageBean.getList()){
+            // 三级分类
             for(AppCategory appCategory : appCategoryListByMap){
                 if(app.getCategoryLevel1() == appCategory.getId()){
                     app.setCategoryLevel1Name(appCategory.getCategoryName());
@@ -126,18 +127,21 @@ public class DevController {
                     app.setCategoryLevel3Name(appCategory.getCategoryName());
                 }
             }
+            // 平台
             for(DataDictionary dataDictionary : flatformList){
                 if(app.getFlatformId() == dataDictionary.getValueId()){
                     app.setFlatformName(dataDictionary.getValueName());
                     break;
                 }
             }
+            // 状态
             for(DataDictionary dataDictionary : statusList){
                 if(app.getStatus() == dataDictionary.getValueId()){
                     app.setStatusName(dataDictionary.getValueName());
                     break;
                 }
             }
+            // 版本
             for(AppVersion appVersion : versionList){
                 if(app.getVersionId() == null){
                     app.setVersionNo("未发布");

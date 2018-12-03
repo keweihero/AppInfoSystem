@@ -210,13 +210,18 @@
                         </li>
                         <li><a class="addVersion" appinfoid="${appInfo.id }" data-toggle="tooltip" data-placement="top" title="" data-original-title="新增APP版本信息">新增版本</a>
                         </li>
-                        <li><a class="modifyVersion" 
-											appinfoid="${appInfo.id }" versionid="${appInfo.versionId }" status="${appInfo.status }" 
+                        <li><a class="modifyVersion" id="modifyVersion"
+											appinfoid="${appInfo.id }"
+							   				versionid="${appInfo.versionId }"
+							   				status="${appInfo.status }"
 											statusname="${appInfo.statusName }"											
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP最新版本信息">修改版本</a>
                         </li>
-                        <li><a  class="modifyAppInfo" 
-											appinfoid="${appInfo.id }" status="${appInfo.status }" statusname="${appInfo.statusName }"
+                        <li><a  class="modifyAppInfo" id="modifyAppInfo"
+											<%--href="${pageContext.request.contextPath}/app/modify.action"--%>
+											appinfoid="${appInfo.id }"
+											status="${appInfo.status }"
+											statusname="${appInfo.statusName }"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP基础信息">修改</a></li>
                         <li><a  class="viewApp" appinfoid=${appInfo.id }  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
 						<li><a  class="deleteApp" appinfoid=${appInfo.id }  appsoftwarename=${appInfo.softwareName } data-toggle="tooltip" data-placement="top" title="" data-original-title="删除APP基础信息以及全部版本信息">删除</a></li>
@@ -282,6 +287,19 @@
 <script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script type="text/javascript">
 	$(function () {
+
+	    $(".modifyAppInfo").click(function () {
+            var appinfoid = $(this).attr('appinfoid');
+            var status = $(this).attr('status');
+            var statusname = $(this).attr('statusname');
+            if(status != 1 && status != 3){
+                alert("这个app已经通过审核,不允许修改");
+			}else{
+                location.href = "${pageContext.request.contextPath}/app/modify/"+appinfoid+".action";
+			}
+
+        });
+
         $("#categoryLevel1").change(function () {
             $('#categoryLevel2').empty();
             $('#categoryLevel3').empty();
@@ -342,11 +360,4 @@
 	});
 
 </script>
-<%--
-	<c:if test="${categoryLevelOne != null}">
-		<option value="0">--请选择--</option>
-		<c:forEach var="category" items="${categoryLevelOne}">
-			<option
-					<c:if test="${category.id == categoryLevel1 }">selected="selected"</c:if>
-					value="${category.id}">${category.categoryName}</option>
-	</c:forEach>--%>
+

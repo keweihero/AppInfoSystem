@@ -34,4 +34,9 @@ public class DevPageController {
     public String appinfoadd(){
         return "/developer/appinfoadd";
     }
+
+    @RequestMapping("/modify.action")
+    public String modify(){
+        return "/developer/appinfomodify";
+    }
 }
